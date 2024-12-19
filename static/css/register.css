@@ -1,0 +1,20 @@
+#reg-img img {
+    height: 400px;
+}
+
+#reg-form {
+    height: 400px;
+    padding-left: var(--padding-div);
+    padding-right: var(--padding-div);
+    width: 100%;
+}
+
+#reg-div {
+    padding: var(--padding-div) 0;
+    margin-top: 80px;
+}
+
+#errors {
+    padding-top: 10px;
+    color: crimson;
+}

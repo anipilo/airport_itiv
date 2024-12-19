@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Ангар{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="bg-white rounded shadow-sm p-3 px-4">
+        <div class="d-flex flex-row align-items-center mb-3 mt-2">
+            <a href="{{ url_for('admin.admin_menu') }}" class="btn btn-outline-primary" style="padding: 5px 7px; line-height: 14px; padding-bottom: 7px;">&lt;</a>
+            <h4 class="mb-0 mx-3">Компании</h4>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Логин</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Старана</th>
+                    <th scope="col">Баланс</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in companies %}
+                <tr>
+                    <td>{{ company[0] }}</td>
+                    <td><a href="{{ url_for('admin.admin_company', company_id=company[0]) }}">{{ company[1] }}</a></td>
+                    <td>{{ company[2] }}</td>
+                    <td>{{ company[3] }}</td>
+                    <td>{{ company[4] }} $</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('admin.admin_company_add') }}" class="btn btn-primary px-4 w-100 mb-2">Добавить</a>
+    </div>
+</div>
+{% endblock %}

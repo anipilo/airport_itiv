@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Админ меню{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="bg-white rounded shadow-sm p-3">
+        <a href="{{ url_for('admin.admin_menu') }}" class="btn btn-primary p-1 px-2 mb-3">В меню</a>
+        <h4 class="text-success mb-2">Файл успешно загружен!</h4>
+        <p class="m-0 text-success">Создано <b>{{ c }}</b> новых записей.</p>
+    </div>
+</div>
+{% endblock %}

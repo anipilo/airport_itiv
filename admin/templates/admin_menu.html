@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Админ меню{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-row">
+
+            <a class="d-flex flex-row align-items-center bg-white rounded text-decoration-none w-50 mx-1 shadow-sm p-3" href="{{ url_for('admin.admin_companies') }}">
+                <img src="{{ url_for('static', filename='img/1.png') }}" alt="" width="40" height="40">
+                <p class="m-0 text-black fs-4" style="padding-left: 20px">Авиакомпании</p>
+            </a>
+
+            <a class="d-flex flex-row align-items-center bg-white rounded text-decoration-none w-50 mx-1 shadow-sm p-3" href="{{ url_for('admin.admin_baskets') }}">
+                <img src="{{ url_for('static', filename='img/2.png') }}" alt="" width="40" height="40">
+                <p class="m-0 text-black fs-4" style="padding-left: 20px">Анагары</p>
+            </a>
+
+        </div>
+        <div class="d-flex flex-row mt-2">
+
+            <a class="d-flex flex-row align-items-center bg-white rounded text-decoration-none w-50 mx-1 shadow-sm p-3" href="{{ url_for('admin.admin_services') }}">
+                <img src="{{ url_for('static', filename='img/3.png') }}" alt="" width="40" height="40">
+                <p class="m-0 text-black fs-4" style="padding-left: 20px">Услуги</p>
+            </a>
+
+            <a class="d-flex flex-row align-items-center bg-white rounded text-decoration-none w-50 mx-1 shadow-sm p-3" href="{{ url_for('admin.admin_anlt') }}">
+                <img src="{{ url_for('static', filename='img/4.png') }}" alt="" width="40" height="40">
+                <p class="m-0 text-black fs-4" style="padding-left: 20px">Аналитика</p>
+            </a>
+
+        </div>
+        <div class="d-flex flex-row mt-2">
+
+            <a class="d-flex flex-row align-items-center bg-white rounded text-decoration-none w-50 shadow-sm p-3 mx-1" href="{{ url_for('admin.admin_export') }}">
+                <img src="{{ url_for('static', filename='img/5.png') }}" alt="" width="40" height="40">
+                <p class="m-0 text-black fs-4" style="padding-left: 20px">Экспорт данных</p>
+            </a>
+            <a class="d-flex flex-row align-items-center bg-white rounded text-decoration-none w-50 shadow-sm p-3 mx-1" href="{{ url_for('admin.admin_import') }}">
+                <img src="{{ url_for('static', filename='img/5.png') }}" alt="" width="40" height="40">
+                <p class="m-0 text-black fs-4" style="padding-left: 20px">Импорт данных</p>
+            </a>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

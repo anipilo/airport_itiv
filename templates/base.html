@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Аэропорт{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/scrollbar.css') }}">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+
+    <div class="header-wrapper shadow-sm">
+        <div class="header px-3">
+            <div class="d-flex h-100 flex-row justify-content-between align-items-center">
+                <a href="{{ url_for('airport.profile') }}" class="text-decoration-none text-black">
+                    <h4 class="m-0">КупиАнгар.by</h4>
+                </a>
+                <div class="d-flex flex-row justify-content-end align-items-center">
+                    {% if session.get('current_user') %}
+                        {% if not session.get('current_user_admin') %}
+                        <h6 class="m-0 mx-2">$ {{ money }}</h6>
+                        <button class="btn btn-primary p-1 px-2" type="button" data-bs-toggle="modal" data-bs-target="#moneyModal">Пополнить</button>
+                        <a href="{{ url_for('airport.orders') }}" class="btn btn-primary p-1 px-2 mx-2">История заказов</a>
+                        {% endif %}
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-primary p-1 px-2">Выйти</a>
+                    {% else %}
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary p-1 px-2 mx-2">Регистрация</a>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-primary p-1 px-3">Вход</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal fade" id="moneyModal" tabindex="-1" aria-labelledby="moneyModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="max-width: 300px;">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <p class="text-center">Пополнение баланса</p>
+                            <input type="number" class="form-control mb-2" placeholder="1000">
+                            <button class="btn btn-primary w-100">Пополнить</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+    
+    <div class="content-wrapper p-3 pt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script>
+        $('#moneyModal input').on('click', function () {
+            $('#moneyModal input').removeClass('line-input-error')
+        })
+
+        $('#moneyModal button').on('click', function (e) {
+            if ($('#moneyModal input').val() !== '') {
+                $.ajax({
+                    url: "{{ url_for('auth.money_add') }}",
+                    method: 'post',
+                    data: {
+                        'sum': $('#moneyModal input').val()
+                    },
+                    success: function (response) {
+                        window.location.reload()
+                    }
+                })
+            }
+            else {
+                $('#moneyModal input').addClass('line-input-error')
+            }
+        })
+    </script>
+    {% block javascript %}
+    {% endblock %}
+
+</body>
+</html>

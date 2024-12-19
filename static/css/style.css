@@ -1,0 +1,138 @@
+html, body {
+    height: 100%;
+    --padding-div: 30px;
+}
+
+select:focus,
+input:focus,
+input:focus-visible {
+    box-shadow: none !important;
+    outline: none;
+}
+
+.line-input {
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-width: 0;
+    border-bottom-width: 1px;
+    padding: 6px 4px;
+    transition: border-color 0.2s;
+}
+
+.line-input:focus {
+    border-color: rgba(0, 0, 0, 0.75);
+}
+
+.line-input-error {
+    border-color: crimson;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+body {
+    background-color: rgb(244,247,250);
+}
+
+.btn-green {
+    border-color: #3EAC62;
+    background-color: #3EAC62;
+    color: white;
+}
+
+.btn-green:hover {
+    border-color: #3BA15D;
+    background-color: #3BA15D;
+    color: white;
+}
+
+.btn-green:focus {
+    border-color: #348A51;
+    background-color: #348A51;
+    color: white;
+}
+
+.btn-outline-green {
+    border-color: #3EAC62;
+    color: #3EAC62;
+}
+
+.btn-outline-green:hover {
+    color: white;
+    background-color: #3EAC62;
+}
+
+.btn-outline-green:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(62 172 98 / 25%);
+}
+
+.btn-outline-red {
+    border-color: #DB324D;
+    color: #DB324D;
+}
+
+.btn-outline-red:hover {
+    background-color: #DB324D;
+    color: white;
+}
+
+.btn-outline-red:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(219 50 77 / 25%);
+}
+.btn-outline-blue {
+    border-color: rgb(88 155 250 / 100%);
+    color: #0d6efd;
+}
+
+.btn-outline-blue:hover {
+    background-color: rgb(88 155 250 / 100%);
+    color: white;
+}
+
+.btn-outline-blue:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(88 155 250 / 25%);
+}
+
+.btn-blue {
+    border-color: rgb(88 155 250 / 100%);
+    background-color: rgb(88 155 250 / 100%);
+    color: white;
+}
+
+.btn-blue:hover {
+    border-color: rgb(85 147 240 / 100%);
+    background-color: rgb(85 147 240 / 100%);
+    color: white;
+}
+
+.btn-blue:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(88 155 250 / 25%);
+}
+
+.text-green {
+    color: #3EAC62;
+}
+
+.header-wrapper,
+.header {
+    height: 50px;
+}
+
+.header-wrapper {
+    background-color: white;
+}
+
+.header {
+    max-width: 800px;
+    margin: 0 auto;
+}

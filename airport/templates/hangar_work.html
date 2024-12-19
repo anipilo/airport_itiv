@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Ангар{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hangar_work.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="bg-white rounded shadow-sm p-3">
+        <h4 id="status-text" class="text-center mt-2 pb-3">Ведётся работа</h4>
+        {% for service in services %}
+        <div class="d-flex flex-row justify-content-between service border rounded p-2 px-3 mb-2">
+            <p class="m-0 fs-5" style="height: 32px">{{ service[1] }}</p>
+            <div class="spinner-border text-success" role="status" style="display: none;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('airport.profile') }}?sort=0" class="mt-2 btn btn-primary w-100" id="to-profile" style="display: none;">В профиль</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/hangar_work.js') }}"></script>
+{% endblock %}

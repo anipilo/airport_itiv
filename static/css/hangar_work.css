@@ -1,0 +1,4 @@
+.service-complete {
+    outline: 1px solid rgba(24, 155, 24, 0.5);
+    background-color:  rgba(24, 155, 24, 0.01);
+}

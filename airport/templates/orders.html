@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}История заказов{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/orders.css') }}">
+<style>
+    .content {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    
+    {% for order in orders %}
+        <div class="bg-white p-3 rounded shadow-sm mb-3">
+            <p class="m-0 mb-2">{{ order.0 }}</p>
+            <h6 class="m-0">{{ order.1 }} $</h6>
+        </div>
+    {% endfor %}
+    <form action="" method="post" class="w-100">
+        <button class="btn btn-outline-danger p-0 px-2 mb-3 w-100">Очистить историю</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/orders.js') }}"></script>
+{% endblock %}

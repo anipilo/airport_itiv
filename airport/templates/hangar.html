@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}Ангар{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hangar.css') }}">
+<style>
+    .content-wrapper,
+    .header {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+        <div id="services-info" class="bg-white rounded shadow-sm p-3">
+            <div id="services-info-panel" class="h-100">
+                <!-- Кнопки интерфейса -->
+                <div id="services-menu-list">
+                    <a href="{{ url_for('airport.profile') }}?sort=0" class="btn btn-outline-primary p-1 px-2 mb-3" style="font-size: 14px;">Назад</a>
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <button id="service-add" class="btn btn-primary w-100 p-3">Добавить услуги</button>
+                        </div>
+                        <div class="col-6">
+                            <button id="service-remove" class="btn btn-primary w-100 p-3">Удалить услугу</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Меню добавления услуг -->
+                <div id="service-add-panel" style="display: none; height: 100%">
+                    <button id="service-add-back" class="btn btn-outline-primary p-1 px-2 mb-3" style="font-size: 14px;">Назад</button>
+                    <div class="d-flex flex-column justify-content-between">
+                        <div class="service-add-list">
+                            {% for service in all_services %}
+                            <div class="service-item rounded shadow-sm p-2 mb-2" name="id-{{ service[0] }}">
+                                <div class="d-flex flex-row align-items-center justify-content-between">
+                                    <div>{{ service[1] }}</div>
+                                    <div>{{ service[2] }} $</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% if all_services|length <= 0 %}
+                            <p class="text-center w-100 text-secondary">Пусто</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <button id="service-add-btn" class="btn btn-primary w-100" disabled>Добавить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Меню удаления услуг -->
+                <div id="service-remove-panel" style="display: none; height: 100%">
+                    <button id="service-remove-back" class="btn btn-outline-primary p-1 px-2 mb-3" style="font-size: 14px;">Назад</button>
+                    <div class="d-flex flex-column justify-content-between">
+                        <div class="service-add-list">
+                            {% for service in services %}
+                                {% if service[0] != 1 %}
+                                <div class="service-item-delete rounded shadow-sm p-2 mb-2" name="id-{{ service[0] }}">
+                                    <div class="d-flex flex-row align-items-center justify-content-between">
+                                        <div>{{ service[1] }}</div>
+                                        <div>{{ service[2] }} $</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                            {% if services|length <= 1 %}
+                            <p class="text-center w-100 text-secondary">Пусто</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <button id="service-delete-btn" class="btn btn-danger w-100" disabled>Удалить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="services-menu" class="bg-white rounded shadow-sm d-flex flex-column justify-content-between p-3">
+            <div class="h-100">
+                <div class="h-100">
+                    <h5 class="text-center mb-3">Информация о заказе</h5>
+                    <ol id="services">
+                        {% for service in services %}
+                        <li class="service fs-5" name="id-{{ service[0] }}">
+                            <div class="d-flex flex-row align-items-center justify-content-between">
+                                <p class="m-0">{{ service[1] }}</p>
+                                <p class="m-0">{{ service[2] }} $</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            <div>
+                {% if money < sum_price %}
+                <h6 class="mb-2 text-center" style="color: #DB324D;">Недостаточно средств.</h6>
+                {% endif %}
+                <div class="d-flex flex-row align-items-center justify-content-between mb-2">
+                    <h4>Итого:</h4>
+                    <h4><span id="total-sum">{{ sum_price }}</span> $</h4>
+                </div>
+                <a href="{{ url_for('airport.hangar_work', basket_id=basket_id) }}" id="service-btn" class="btn btn-primary mb-2
+                {% if money < sum_price or services|length <= 1 %}disabled{% endif %}
+                ">Заказать</a>
+                <a href="{{ url_for('airport.hangar_delete', plane_id=plane_id) }}" id="service-cancel" class="btn btn-outline-primary">Отмена</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/hangar.js') }}"></script>
+<script>
+    $('#service-add-btn').on('click', function (event) {
+        $.ajax({
+            url: `{{ url_for('airport.service_add') }}`,
+            data: {
+                'plane_id': '{{ plane_id }}',
+                'items': service_items.toString()
+            },
+            success: function (response) {
+                window.location.reload()
+            }
+        })
+    })
+
+    $('#service-delete-btn').on('click', function (event) {
+        $.ajax({
+            url: `{{ url_for('airport.service_delete') }}`,
+            data: {
+                'plane_id': '{{ plane_id }}',
+                'items': service_items_delete.toString()
+            },
+            success: function (response) {
+                window.location.reload()
+            }
+        })
+    })
+</script>
+{% endblock %}

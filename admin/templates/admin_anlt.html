@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Аналитика{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="bg-white rounded shadow-sm p-3">
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('myChart');
+  
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [{% for x in orders %}{{x}}, {% endfor %}],
+        datasets: [{
+          label: 'Заказы',
+          data: [{% for x in orders %}{{orders[x]}}, {% endfor %}],
+          borderColor: '#0d6efd',
+          borderWidth: 1,
+        }]
+      },
+      
+      options: {
+        plugins: {
+        title: {
+            display: false,
+            text: ''
+        },
+        },
+        scales: {
+            x: {
+                type: 'linear',
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Сумма заказа'
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'Количество заказов'
+                },
+            }
+        },
+      }
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Услуги{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="bg-white rounded shadow-sm p-3 px-4">
+        <div class="d-flex flex-row align-items-center mb-3 mt-2">
+            <a href="{{ url_for('admin.admin_menu') }}" class="btn btn-outline-primary" style="padding: 5px 7px; line-height: 14px; padding-bottom: 7px;">&lt;</a>
+            <h4 class="mb-0 mx-3">Услуги</h4>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                <tr>
+                    <td>{{ service[0] }}</td>
+                    <td><a href="{{ url_for('admin.admin_service', service_id=service[0]) }}">{{ service[1] }}</a></td>
+                    <td>{{ service[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('admin.admin_service_add') }}" class="btn btn-primary px-4 w-100 mb-2">Добавить</a>
+    </div>
+</div>
+{% endblock %}

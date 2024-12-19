@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Новая корзина{% endblock %}
+
+{% block css %}
+<style>
+    .info > p {
+        min-width: 160px;
+    }
+    .buttons button:first-child {
+        margin-right: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="bg-white rounded shadow-sm p-3 px-4">
+        <div class="d-flex flex-row align-items-center mb-3 mt-2">
+            <a href="{{ url_for('admin.admin_baskets') }}" class="btn btn-outline-primary" style="padding: 5px 7px; line-height: 14px; padding-bottom: 7px;">&lt;</a>
+            <h4 class="mb-0 mx-3">Новый ангар</h4>
+        </div>
+        <div class="mb-2">
+            <form method="post"  enctype="multipart/form-data" autocomplete="off">
+                <div class="d-flex flex-column mb-2">
+                    <div class="d-flex flex-row align-items-center info mb-2">
+                        <p class="m-0">Итоговая стоимость:</p>
+                        <input type="number" class="form-control w-100" placeholder="Итоговая стоимость" name="sum_price" value="0">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

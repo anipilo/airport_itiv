@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+<style>
+    .content-wrapper,
+    .header {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    #company-info-change {
+        --btn-size: 30px;
+        background: url("{{ url_for('static', filename='svg/fi-rr-settings.svg') }}");
+        background-size: var(--btn-size);
+        width: calc(var(--btn-size) + 15px);
+        height: calc(var(--btn-size) + 15px);
+        display: block;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .plane-info {
+        background: url("{{ url_for('static', filename='svg/fi-rr-menu-dots-vertical.svg') }}");
+        width: 40px;
+        height: 40px;
+        background-size: 24px;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: block;
+    }
+
+    #plane-add {
+        background: url("{{ url_for('static', filename='svg/fi-rr-plus.svg') }}");
+        background-size: 24px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+   
+    #plane-add-cancel {
+        background: url("{{ url_for('static', filename='svg/fi-rr-cross.svg') }}");
+        width: 30px;
+        height: 30px;
+        background-size: 15px;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: block;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    {% if not info_name or not info_country %}
+    <div id="warning-message" class="alert alert-danger" role="alert">
+        Добавьте информацию о вашей авиакомпании.
+        <a href="{{ url_for('airport.update_company_info') }}">Добавить</a>
+    </div>
+    {% endif %}
+    <div class="bg-white rounded shadow-sm p-3 d-flex flex-row align-items-center justify-content-between">
+        <div>
+            {% if info_name %}
+            <h5 class="m-0">{{ info_name }}</h5>
+            {% else %}
+            <h5 class="m-0 text-secondary"><i>Название</i></h5>
+            {% endif %}
+            {% if info_country %}
+            <small class="m-0">{{ info_country }}</small>
+            {% else %}
+            <small class="m-0 text-secondary"><i>Страна</i></small>
+            {% endif %}
+        </div>
+        <div>
+            <a id="company-info-change" class="rounded" href="{{ url_for('airport.update_company_info') }}" title="Изменить информацию о компании"></a>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row align-items-center justify-content-between mt-4">
+        <form action="" id="search-form" method="get" style="min-width: 400px" autocomplete="off">
+            <input name="search" type="text" class="form-control" placeholder="Поиск по названию" style="min-width: 400px;"
+            {% if search %}value="{{ search }}"{% endif %}>
+        </form>
+        <select name="sort" id="sort" class="form-select" style="max-width: 200px;">
+            <option value="0" {% if sort == '0' %}selected{% endif %}>По названию</option>
+            <option value="1" {% if sort == '1' %}selected{% endif %}>В ангаре</option>
+            <option value="2" {% if sort == '2' %}selected{% endif %}>Не в ангаре</option>
+        </select>
+    </div>
+
+    <div id="planes" class="mt-4">
+        {% for plane in planes %}
+            {% if plane[3] %}
+            <div class="plane plane-hangar rounded shadow-sm">
+            {% else %}
+            <div class="plane rounded shadow-sm">
+            {% endif %}
+                <div class="d-flex flex-row align-items-center justify-content-between">
+                    <div>
+                        <h5 class="m-0">{{ plane[1] }}</h5>
+                        {% if plane[3] %}
+                        <small>В ангаре</small>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <button type="button" class="btn plane-info" data-bs-toggle="modal" data-bs-target="#planeMenuModal" name="{{ plane[0] }}"></button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="plane-add rounded shadow-sm">
+            <button id="plane-add" class="btn" title="Добавить самолет"></button>
+        </div>
+    </div>
+    
+    <div id="plane-add-panel" class="mt-4" style="display: none;">
+        <div class="bg-white rounded shadow-sm p-3 mx-auto">
+            <div class="d-flex flex-row align-items-center mb-2 justify-content-between">
+                <p class="m-0 px-1">Добавление нового самолета</p>
+                <button id="plane-add-cancel" class="btn" type="button"></button>
+            </div>
+            <form method="post" id="profile-form" action="{{ url_for('airport.profile') }}?sort=0" enctype="multipart/form-data">
+                <input name="name" type="text" class="line-input w-100 mb-2" placeholder="Название самолета" autocomplete="off">
+                <div>
+                    <button id="plane-add-save" class="btn btn-primary p-1 px-2 " type="submit">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Меню управления самолетом -->
+    <div class="modal fade" id="planeMenuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 300px;">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <a href="{{ url_for('airport.hangar', plane_id=0) }}" id="to-hangar" class="btn btn-primary w-100 mb-2">Перейти в ангар</a>
+                    <button class="btn btn-outline-primary w-100" id="delete-plane">Удалить самолет</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+<script>
+
+$('.plane-info').on('click', function () {
+    const id = $(this).attr('name')
+    let url = '{{ url_for("airport.hangar", plane_id=0) }}'
+    url = url.replace(0, id)
+    $('#to-hangar').attr('href', url)
+    $('#delete-plane').attr('name', id)
+})
+
+
+$('#delete-plane').on('click', function () {
+    const id = $(this).attr('name')
+    $.ajax({
+        url: '{{ url_for("airport.plane_delete") }}',
+        method: 'post',
+        data: {
+            'plane_id': id
+        },
+        success: function (response) {
+            window.location.reload()
+        }
+    })
+})
+
+$('#sort').on('change', function (e) {
+    const v = $(this).val()
+    const search = $('#search-form input').val()
+    window.location.replace(window.location.origin + `?sort=${v}&search=${search}`)
+})
+
+$('#search-form').on('submit', function (e) {
+    e.preventDefault()
+    const v = $('#sort').val()
+    const search = $('#search-form input').val()
+    window.location.replace(window.location.origin + `?sort=${v}&search=${search}`)
+})
+</script>
+{% endblock %}
